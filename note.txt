@@ -1,0 +1,549 @@
+
+sangam mukherjee
+github:https://github.com/sangammukherjee/NextJS-Ecommerce-2023
+youtube:https://youtu.be/wjjcYfccDFI?si=TVNlcRFg7DLqDI8H
+
+export const userlinks=[ 
+    {
+        id:"home",
+        label:"Home",
+        path:"/"
+    },
+    {
+        id:"listing",
+        label:"Allproducts",
+        path:"/product/listing/all-products"
+    },
+    {
+        id:"listingmen",
+        label:"Men",
+        path:"/product/listing/men"
+    },
+    {
+        id:"listingwomen",
+        label:"women",
+        path:"/product/listing/women"
+    },
+    {
+        id:"listingkids",
+        label:"Kids",
+        path:"/product/listing/kids"
+    }
+]
+
+export const adminlinks=[
+    {id:"admin listing",
+     label:"manage all product",
+     path:"/admin-view/allproduct"
+    },
+    {
+        id:"admin new product",
+        label:"add new product",
+        path:"/admin-view/add-product"
+        
+    }
+]
+//button nalla css ann ith
+export const styles={
+    Button:"mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracky-wide text-white"
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+            Navbar
+            -------------------------
+import { adminlinks, styles, userlinks } from "@/app/utlities";
+import { Fragment } from "react";
+let admin = false;
+let user = true;
+let checking = {
+    first: 'admin'
+}
+export  function Navcompoents(){
+    return(
+        <div className="items-center justify-between w-full md:flex md:w-auto" id="nav-items">
+            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-white">
+            {
+                            admin ? adminlinks.map((data) => (
+                                
+                                    <li className="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p-0" key={data.id}>{data.label}</li>
+                                
+                            )) : userlinks.map(data => (
+                            
+                                    <li className="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p-0" key={data.id}>{data.label}</li>
+                                
+                            ))
+                        }
+            </ul>
+        </div>
+    )
+}
+
+const Navbar = () => {
+   
+    return (
+// navbarinte css utlise cheyyam
+// name     link link link link link     button button button button button 
+//kollam
+        <>
+            <nav className="bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200">
+                <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+                    <div className="flext items-center cursor-pointer">
+                        <span className="self-center text-2xl font-semibold whitespace-nowrap">Ecommercery</span>
+                    </div>
+                  
+                    <div className="flex md:order-2 gap-2">
+                        {
+                            !admin && user ? (    //ternary true matrame return akku
+                                <Fragment>
+                                    <button className={styles.Button}>Account</button>
+                                    <button  className={styles.Button}>Cart</button>
+                                </Fragment>
+                            ) : null
+                        }
+                        {
+                            checking.first === 'admin' ?
+                                admin ? (
+                                    <button  className={styles.Button}> clientview</button>
+
+                                )
+
+                                    :
+                                    <button  className={styles.Button}> admin view</button>
+
+
+                                :
+                                null
+
+                        }
+                        {
+                            user ? <button  className={styles.Button}>logout</button> : <button  className={styles.Button}>login</button>
+                        }
+
+            
+                
+                            <button
+              data-collapse-toggle="navbar-sticky"
+              type="button"
+              className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              aria-controls="navbar-sticky"
+              aria-expanded="false"
+            
+            >
+              <span className="sr-only">Open main menu</span>
+              <svg
+                className="w-6 h-6"
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+        
+         </div>
+                
+                     <Navcompoents/>
+            
+                </div>
+
+            </nav>
+        </>
+
+    );
+}
+
+export default Navbar;
+
+
+/////////////////////////////////////////////////////////////////////
+  <Transition as={Fragment}> //instead of transition.Root 
+        <Dialog as="div">
+            <TransitionChild enter="ease-in-out-900" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in-out-500" leaveFrom="opacity-100" leaveTo="opacity-0">
+
+
+            </TransitionChild>//Transition.child
+        </Dialog>
+
+    </Transition>
+    /////////////////////////////////////////
+    mongodbatlas connection
+    //////////////////////////////////////
+    username:yayooop62
+    password:VSn2xzJxjDQxBxfs
+
+step-1-mongodbcoonection
+import mongoose from "mongoose";
+
+
+const connectDB = async ()=>{
+    mongoose.connect("mongodb+srv://yayooop62:VSn2xzJxjDQxBxfs@cluster0.khiss.mongodb.net/",{
+        useNewUrlParser:true,
+        useUnifiedTopology:true,
+       
+    }).then(()=>{
+        console.log("connected to database");
+    }).catch((err)=>{
+        console.log(`something problem at connections of db${err.message}`);
+    });
+
+}
+
+export default connectDB;
+step-2 adding of schema
+import mongoose from "mongoose";
+
+const usermodel=new mongoose.Schema({
+    name:{
+        type:String,
+        required:true
+    },
+    email:{
+        type:String,
+        required:true
+    },
+    password:{
+        type:String,
+        required:true
+    },
+    role:{
+        type:String,
+        required:true
+    }
+})
+
+ const User= mongoose.models.User || mongoose.model("User",usermodel);
+ export default User;
+ step-3 api route
+ import connectDB from "@/database";
+import User from "@/models/users";
+import { hash } from "bcryptjs";
+import Joi from "joi";
+import { NextResponse } from "next/server";
+
+
+
+const Schema=Joi.object({
+    name:Joi.string().required(),
+    email:Joi.string().email().required(),
+    password:Joi.string().min(6).required(),
+    role:Joi.string().required(),
+})
+
+
+
+export async function POST(req){
+    await connectDB();
+    const{name,email,password,role}=await req.json()
+         const{error} =Schema.validate({name,email,password,role})
+         if(error){
+            console.log("error at validation");
+            return NextResponse.json({
+                message:error.details[0].message,
+                success:false
+            })
+            
+         }
+         //user is present or not
+         try{
+           const isregisterduser=await User.findOne({email})
+           if(isregisterduser){
+            console.log("user already present");
+            return NextResponse.json({
+                message:"user is already registerd",
+                success:false
+            })
+            
+            
+           }
+           else{
+            const hashpassword=await hash(password,12)
+            const newcreateduser=await User.create({
+                name,email,password:hashpassword,role
+            })
+            if(newcreateduser){
+                console.log("user created");
+                return NextResponse.json({
+                    message:"user created successfully",
+                    success:true
+                })
+            }
+           
+          
+           }
+         }
+         catch(error){
+            console.log("error at creating user");
+            return NextResponse.json({
+                message:"error at creating user",
+                success:false
+            })
+         }
+
+
+}
+step-4 servicefiles
+export const registerservice=async(formdata)=>{
+   try{
+    const responce=await fetch("/api/register",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(formdata)
+    })
+    const data=await responce.json();
+    return data;
+   }
+   catch(error){
+    console.log("error",error);
+   }
+    
+}
+step-5 make the changes at frontend
+"use client";
+
+import { useState } from "react";
+import Inputcomponent from "../forms/inputcomponent";
+import Selectcomponent from "../forms/selectcomponent";
+import { registercomponentlist } from "../utlities";
+import { registerservice } from "@/services/register";
+
+const registercheck=false;
+
+
+const Register = () => {
+    /**
+     * Initializes the form data state with default values.
+     * 
+     * The `formdata` state variable holds the current form data, including the user's name, email, password, and role.
+     * The `setformdata` function is used to update the `formdata` state.
+     * 
+     * @returns {Object} The initial form data object with default values.
+     */
+    let[formdata,setformdata]=useState({
+        name:"",
+        email:"",
+        password:"",
+        role:"customer"
+    })
+    console.log(formdata);
+    
+
+     function chekingdata(){
+     return  formdata && formdata.name && formdata.name.trim()!==''&&  
+       formdata.email && formdata.email.trim()!==''&& 
+       formdata.password && formdata.password.trim()!==''?true:false;
+    }
+      async function sedingdata(){
+        const data=await registerservice(formdata);
+        console.log(data);
+        
+      }
+    return ( 
+    <div className="bg-white relative">
+        <div className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-8 mr-auto xl:px-5 lg:flex-row">
+            <div
+            className="flex flex-col justify-center items-center w-full pr-10 pl-10 lg:flex-row">
+                <div className="w-full mt-0 mr-0 ml-0 mb-0 relative max-w-2xl lg:mt-0 lg:w-5/12">
+    <div className="flex flex-col items-center justify-start pt-10 pr-10 pb-10 pl-10 bg-white shadow-2xl rounded-xl relative z-10">
+        <p className="w-full text-4xl font-medium text-center font-serif">
+            {
+              registercheck?"registration successfull":"Signup for an account"
+            }
+        </p>
+        {
+            registercheck?<button className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide ">Login</button>:<div className="w-full mt-6 ml-0 mb-0 mr-0 relative space-y-8">
+                {registercomponentlist.map((list)=>(
+                    list.componenttype==="input"? 
+
+                    <Inputcomponent value={formdata[list.id]} onchange={(e)=>setformdata({...formdata,[list.id]:e.target.value})} label={list.label} type={list.type} placeholder={list.placeholder} />
+                    :
+                    list.componenttype==="select"? 
+                    <Selectcomponent value={formdata[list.id]} onchange={(e)=>setformdata({...formdata,[list.id]:e.target.value})} label={list.label} options={list.options}/>
+                    :null
+                ))}
+            </div>
+        }
+        <button disabled={!chekingdata()} onClick={sedingdata}  className=" disabled:opacity-50 inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide mt-3">REGISTER</button>
+    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     );
+}
+ 
+export default Register;
+
+///atlas db of loginpage
+import connectDB from "@/database"
+import User from "@/models/users";
+import { compare } from "bcryptjs";
+import Joi from "joi";
+import jwt from "jsonwebtoken";
+import { NextResponse } from "next/server";
+
+
+const schema=Joi.object({
+    email:Joi.string().email().required(),
+    password:Joi.string().required()
+})
+export const dynamic="force-dynamic"
+
+export async function POST(req){
+    await connectDB();
+    const{email,password}=await req.json()
+    const{error}=schema.validate({email,password})
+    if(error){
+        return NextResponse.json({
+       success:false,
+       message:error.details[0].message
+        })
+    }
+
+    try {
+        const checkuser=await User.findOne({email})
+        if(!checkuser){
+            console.log("error at email finding");
+            return NextResponse.json({
+                success:false,
+                message:"email id is not match"
+            })
+            
+        }
+        
+            const checkpassword=await compare(password,checkuser.password)
+            if(!checkpassword){
+                console.log("password is not match");
+                return NextResponse.json({
+                    success:false,
+                    message:"password is not match"
+                    
+                })
+            }
+            const token= jwt.sign({
+                id:checkuser._id,
+                email:checkuser?.email,
+                role:checkuser?.role
+            },"default_sceret_key",{
+                expiresIn:"1d"
+            })
+            const finaldata={
+                token,
+                _id:checkuser._id,
+                name:checkuser.name,
+                email:checkuser.email,
+               
+                role:checkuser.role
+            }
+            return NextResponse.json({
+                success:true,
+                message:"login successfully",
+                finaldata,
+            })
+
+        
+    } catch (error) {
+         console.log("something error at the verification of email and password");
+         return NextResponse.json({
+            success:false,
+            message:"something went wrong! please try again later"
+         })
+         
+    }
+
+
+
+}
+step-2
+
+
+export const loginserverfile=async(formdata)=>{
+try {
+    let responce=await fetch("/api/login",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(formdata)   
+      })
+      let data=await responce.json();
+      return data;
+      
+} catch (error) {
+    console.log("eroor at uploading data",error);
+    
+}
+  
+}
+step-3
+"use client";
+import { useRouter } from "next/navigation";
+import { Logincomponentlist } from "../utlities";
+import Inputcomponent from "../forms/inputcomponent";
+import { useState } from "react";
+import { loginserverfile } from "@/services/login";
+
+const Login = () => {
+
+    let router=useRouter();
+    const[formdata,setformdata]=useState({
+        email:"",
+        password:""
+    })
+    console.log(formdata);
+    
+    const validation=()=>{
+        return formdata && formdata.email&& formdata.email.trim()!=="" && formdata.password && formdata.password.trim()!==""?true:false
+    }
+    async function connectingtoservice(){
+        const data=await loginserverfile(formdata)
+        console.log(data);
+        
+    } 
+    return ( 
+        <div className="bg-white relative">
+        <div className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-8 mr-auto xl:px-5 lg:flex-row">
+            <div
+            className="flex flex-col justify-center items-center w-full pr-10 pl-10 lg:flex-row">
+                <div className="w-full mt-0 mr-0 ml-0 mb-0 relative max-w-2xl lg:mt-0 lg:w-5/12">
+    <div className="flex flex-col items-center justify-start pt-10 pr-10 pb-10 pl-10 bg-white shadow-2xl rounded-xl relative z-10">
+        <p className="w-full text-4xl font-medium text-center font-serif">
+           Login
+        </p>
+        
+            <div className="w-full mt-6 ml-0 mb-0 mr-0 relative space-y-8">
+                {Logincomponentlist.map((list)=>(
+                
+
+                    <Inputcomponent value={formdata[list.id]} onchange={(e)=>setformdata({...formdata,[list.id]:e.target.value})} label={list.label} type={list.type} placeholder={list.placeholder} />
+                    
+                
+                   
+                    
+                ))}
+            </div>
+            <button disabled={!validation()} onClick={connectingtoservice} className=" disabled:opacity-50 inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide mt-3 ">LOGIN</button>
+            <div className="ml-[-380px] p-2">
+             <p className="text-start">new to website?</p>
+             </div>
+            <button  className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide "onClick={()=>router.push('/register')}>Register</button>
+           
+        
+    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     );
+}
+ 
+export default Login;
+
+
+
+ 
